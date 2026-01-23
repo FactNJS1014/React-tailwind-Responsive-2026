@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.a4-page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 20mm;
+  box-sizing: border-box;
+  background: white;
+}
+
+/* บังคับขึ้นหน้าใหม่ */
+.page-break {
+  page-break-before: always;
+  break-before: page;
+}
+
+/* กัน element โดนตัดครึ่ง */
+.avoid-break {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .a4-page {
+    box-shadow: none;
+    margin: 0 auto;
+  }
+}
