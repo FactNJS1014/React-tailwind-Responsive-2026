@@ -30,6 +30,9 @@ function Navbar() {
                 <li>
                   <a href="/dashboard">Dashboard</a>
                 </li>
+                <li>
+                  <a href="/spreadsheet">Spreadsheet</a>
+                </li>
               </ul>
             </div>
           </div>

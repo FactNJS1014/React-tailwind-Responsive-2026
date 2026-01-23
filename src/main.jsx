@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PdfPage from "./PdfPage";
 import Random from "./Random";
 import Dashboard from "./Dashboard";
+import SpreadSheet from "./SpreadSheet";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -26,6 +27,10 @@ createRoot(document.getElementById("root")).render(
         {
           path: "/dashboard",
           element: <Dashboard />,
+        },
+        {
+          path: "/spreadsheet",
+          element: <SpreadSheet />,
         },
       ])}
     />
