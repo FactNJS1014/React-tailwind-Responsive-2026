@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PdfPage from "./PdfPage";
 import Random from "./Random";
+import Dashboard from "./Dashboard";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -21,6 +22,10 @@ createRoot(document.getElementById("root")).render(
         {
           path: "/random",
           element: <Random />,
+        },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
         },
       ])}
     />

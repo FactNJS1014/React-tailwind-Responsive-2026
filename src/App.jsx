@@ -3,8 +3,21 @@
 import Navbar from "./components/Navbar";
 import { FaSearch, FaUser } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [arrayList, setArrayList] = useState([]);
+
+  useEffect(() => {
+    fetchDisneyCharacter();
+  }, []);
+
+  const fetchDisneyCharacter = async () => {
+    const res = await fetch("https://pokeapi.co/api/v2/pokemon-form");
+    const data = await res.json();
+    setArrayList(data.results);
+    console.log(data);
+  };
   return (
     <>
       <div className="min-h-screen bg-linear-to-br from-indigo-100 to-purple-300">
@@ -31,51 +44,28 @@ function App() {
             transition={{ duration: 0.7, delay: 0.2, type: "spring" }}
             className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-4 p-4"
           >
-            <div className="px-6 py-2 bg-white rounded-xl shadow-md">
-              <div className="flex items-center justify-center bg-purple-50 h-48 rounded-xl">
-                <FaUser className="w-24 h-24 text-purple-500" />
+            {arrayList.map((ch, index) => (
+              <div
+                key={index}
+                className="px-6 py-2 bg-white rounded-xl shadow-md"
+              >
+                <div className="flex items-center justify-center bg-purple-50 h-48 rounded-xl">
+                  <img
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`}
+                    alt={ch.name}
+                    width={200}
+                    height={200}
+                  />
+                </div>
+                <h1 className="text-2xl font-bold text-center mt-5">
+                  {ch.name}
+                </h1>
+
+                <button className="w-full bg-purple-500 text-white py-2 rounded-xl mt-5">
+                  View Pokemon
+                </button>
               </div>
-              <h1 className="text-2xl font-bold text-center mt-5">
-                Hero Section
-              </h1>
-              <p className="text-center mt-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam, quod.
-              </p>
-              <button className="w-full bg-purple-500 text-white py-2 rounded-xl mt-5">
-                Learn More
-              </button>
-            </div>
-            <div className="px-6 py-2 bg-white rounded-xl shadow-md">
-              <div className="flex items-center justify-center bg-purple-50 h-48 rounded-xl">
-                <FaUser className="w-24 h-24 text-purple-500" />
-              </div>
-              <h1 className="text-2xl font-bold text-center mt-5">
-                Hero Section
-              </h1>
-              <p className="text-center mt-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam, quod.
-              </p>
-              <button className="w-full bg-purple-500 text-white py-2 rounded-xl mt-5">
-                Learn More
-              </button>
-            </div>
-            <div className="px-6 py-2 bg-white rounded-xl shadow-md">
-              <div className="flex items-center justify-center bg-purple-50 h-48 rounded-xl">
-                <FaUser className="w-24 h-24 text-purple-500" />
-              </div>
-              <h1 className="text-2xl font-bold text-center mt-5">
-                Hero Section
-              </h1>
-              <p className="text-center mt-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam, quod.
-              </p>
-              <button className="w-full bg-purple-500 text-white py-2 rounded-xl mt-5">
-                Learn More
-              </button>
-            </div>
+            ))}
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 100 }}

@@ -28,7 +28,7 @@ function Navbar() {
                   <a href="/random">Random</a>
                 </li>
                 <li>
-                  <a href="#">Contact</a>
+                  <a href="/dashboard">Dashboard</a>
                 </li>
               </ul>
             </div>
