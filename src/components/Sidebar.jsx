@@ -31,14 +31,26 @@ function Sidebar() {
     { id: "Settings", icon: FaCog, label: "Settings" },
   ];
 
-  // Dashboard Chart Data
+  //Random Color Donut Chart
+  const randomColor = () => {
+    return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+  };
+
+  const name = [
+    { name: "Javascript", value: 30 },
+    { name: "React", value: 50 },
+    { name: "Tailwind", value: 100 },
+    { name: "Nodejs", value: 400 },
+  ];
+
+  // Dashboard Chart Data and loop background color
   const chartData = {
-    labels: ["Javascript", "React", "Tailwind", "Nodejs"],
+    labels: name.map((n) => n.name),
     datasets: [
       {
         label: "Skills",
-        data: [30, 50, 100, 400],
-        backgroundColor: ["#3B82F6", "#8B5CF6", "#06B6D4", "#10B981"],
+        data: name.map((n) => n.value),
+        backgroundColor: name.map(() => randomColor()),
         hoverOffset: 4,
       },
     ],
@@ -49,7 +61,7 @@ function Sidebar() {
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-gradient-to-r from-amber-500 to-amber-400 rounded-xl shadow-lg p-5 text-white">
+        <div className="bg-linear-to-r from-amber-500 to-amber-400 rounded-xl shadow-lg p-5 text-white">
           <div className="flex items-center justify-between">
             <HiBanknotes className="w-12 h-12" />
             <div className="text-right">
@@ -58,7 +70,7 @@ function Sidebar() {
             </div>
           </div>
         </div>
-        <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-xl shadow-lg p-5 text-white">
+        <div className="bg-linear-to-r from-green-500 to-green-400 rounded-xl shadow-lg p-5 text-white">
           <div className="flex items-center justify-between">
             <FaClock className="w-12 h-12" />
             <div className="text-right">
@@ -67,7 +79,7 @@ function Sidebar() {
             </div>
           </div>
         </div>
-        <div className="bg-gradient-to-r from-red-500 to-red-400 rounded-xl shadow-lg p-5 text-white">
+        <div className="bg-linear-to-r from-red-500 to-red-400 rounded-xl shadow-lg p-5 text-white">
           <div className="flex items-center justify-between">
             <FaCalculator className="w-12 h-12" />
             <div className="text-right">
@@ -105,7 +117,7 @@ function Sidebar() {
                 <option>Nodejs</option>
               </select>
             </div>
-            <button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition">
+            <button className="w-full bg-linear-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition">
               ค้นหา
             </button>
           </div>
