@@ -33,6 +33,9 @@ function Navbar() {
                 <li>
                   <a href="/spreadsheet">Spreadsheet</a>
                 </li>
+                <li>
+                  <a href="/content">Content</a>
+                </li>
               </ul>
             </div>
           </div>

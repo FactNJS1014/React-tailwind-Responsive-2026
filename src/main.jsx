@@ -7,6 +7,7 @@ import PdfPage from "./PdfPage";
 import Random from "./Random";
 import Dashboard from "./Dashboard";
 import SpreadSheet from "./SpreadSheet";
+import Content from "./Content";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -31,6 +32,10 @@ createRoot(document.getElementById("root")).render(
         {
           path: "/spreadsheet",
           element: <SpreadSheet />,
+        },
+        {
+          path: "/content",
+          element: <Content />,
         },
       ])}
     />

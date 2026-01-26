@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 
 function SpreadSheet() {
   const [data, setData] = useState([]);
+  const [columns, setColumns] = useState([]);
 
   const handleGetFile = async (e) => {
     const file = e.target.files[0];
@@ -20,6 +21,9 @@ function SpreadSheet() {
     const json = XLSX.utils.sheet_to_json(worksheet);
 
     setData(json);
+
+    const cols = XLSX.utils.sheet_to_json(worksheet, { header: 1 })[0];
+    setColumns(cols);
     console.log(json);
   };
 
@@ -39,29 +43,29 @@ function SpreadSheet() {
         />
 
         <div className="mt-5">
-          <div className="w-full">
-            <table className="min-w-full border-collapse border border-gray-500 max-h-[300px] overflow-auto">
+          <div className="w-full overflow-auto max-h-[400px]">
+            <table className="min-w-full border-collapse border border-gray-500 ">
               {data.length > 0 ? (
                 <>
-                  <thead>
-                    <tr>
-                      <th>Model</th>
-                      <th>PCB Number</th>
-                      <th>Price</th>
+                  <thead className="bg-gray-900 text-white text-xl sticky top-0">
+                    <tr className="h-10">
+                      {columns.map((col, index) => (
+                        <th key={index}>{col}</th>
+                      ))}
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="bg-gray-200 text-center font-semibold text-md">
                     {data.map((item, index) => (
                       <tr key={index}>
-                        <td>{item.Model}</td>
-                        <td>{item.PCB}</td>
-                        <td>{item[`unit price`]}</td>
+                        {columns.map((col, index) => (
+                          <td key={index}>{item[col]}</td>
+                        ))}
                       </tr>
                     ))}
                   </tbody>
                 </>
               ) : (
-                <tbody>
+                <tbody className="bg-gray-200 text-center font-semibold text-md">
                   <tr>
                     <td
                       colSpan={data.length}

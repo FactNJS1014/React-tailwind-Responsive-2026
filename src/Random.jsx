@@ -1,14 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface Ball {
-  id: number;
-  number: string;
-  isRevealed: boolean;
-}
-
 function Random() {
-  const [balls, setBalls] = useState<Ball[]>([]);
+  const [balls, setBalls] = useState([]);
   const [isRandomizing, setIsRandomizing] = useState(false);
   const [showBalls, setShowBalls] = useState(false);
   const [currentRevealIndex, setCurrentRevealIndex] = useState(-1);
@@ -31,8 +25,7 @@ function Random() {
     return lotteryDatabase[randomIndex];
   };
 
-  const delay = (ms: number) =>
-    new Promise<void>((resolve) => setTimeout(resolve, ms));
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const startRandomize = useCallback(async () => {
     if (isRandomizing) return; // Prevent multiple calls while randomizing
@@ -46,7 +39,7 @@ function Random() {
     const selectedNumber = getRandomLotteryNumber();
     const digits = selectedNumber.split("");
 
-    const newBalls: Ball[] = digits.map((digit, i) => ({
+    const newBalls = digits.map((digit, i) => ({
       id: i,
       number: digit,
       isRevealed: false,
@@ -68,7 +61,7 @@ function Random() {
 
   // Keydown event listener for Enter key
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = (event) => {
       if (event.key === "Enter") {
         startRandomize();
       }
