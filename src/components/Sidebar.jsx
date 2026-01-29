@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaHome,
   FaUser,
@@ -43,6 +43,10 @@ function Sidebar() {
     { name: "Nodejs", value: 400 },
   ];
 
+  const [apiData, setApiData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+
   // Dashboard Chart Data and loop background color
   const chartData = {
     labels: name.map((n) => n.name),
@@ -54,6 +58,23 @@ function Sidebar() {
         hoverOffset: 4,
       },
     ],
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts",
+      );
+      const data = await response.json();
+      setApiData(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   // Dashboard Content Component
@@ -103,14 +124,14 @@ function Sidebar() {
               </label>
               <input
                 type="date"
-                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 เลือกภาษา
               </label>
-              <select className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white">
                 <option>Javascript</option>
                 <option>React</option>
                 <option>Tailwind</option>
@@ -136,6 +157,146 @@ function Sidebar() {
     </div>
   );
 
+  // Pagination calculations
+  const totalPages = Math.ceil(apiData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = apiData.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(Number(e.target.value));
+    setCurrentPage(1); // Reset to first page when changing items per page
+  };
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) pages.push(i);
+        pages.push("...");
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push("...");
+        for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        pages.push("...");
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+        pages.push("...");
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  };
+
+  const DocumentContent = () => (
+    <div className="flex flex-col h-[calc(100vh-120px)] bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+      {/* Header with Items Per Page Selector */}
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-gray-600 dark:text-gray-400">แสดง</span>
+          <select
+            value={itemsPerPage}
+            onChange={handleItemsPerPageChange}
+            className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          >
+            <option value={4}>4</option>
+            <option value={8}>8</option>
+            <option value={12}>12</option>
+            <option value={20}>20</option>
+          </select>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            รายการ
+          </span>
+        </div>
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          แสดง {startIndex + 1} - {Math.min(endIndex, apiData.length)} จาก{" "}
+          {apiData.length} รายการ
+        </div>
+      </div>
+
+      {/* Content List */}
+      <div className="flex-1 p-4 overflow-y-auto">
+        {currentData.map((item) => (
+          <div
+            key={item.id}
+            className="mb-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-100 dark:border-gray-600 hover:shadow-md transition-shadow"
+          >
+            <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
+              {item.title}
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+              {item.body}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex items-center justify-center gap-2 p-4 border-t border-gray-200 dark:border-gray-700">
+        {/* Previous Button */}
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+            currentPage === 1
+              ? "bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+              : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white"
+          }`}
+        >
+          ก่อนหน้า
+        </button>
+
+        {/* Page Numbers */}
+        <div className="flex items-center gap-1">
+          {getPageNumbers().map((page, index) => (
+            <button
+              key={index}
+              onClick={() => typeof page === "number" && handlePageChange(page)}
+              disabled={page === "..."}
+              className={`min-w-[36px] h-9 rounded-lg text-sm font-medium transition-all ${
+                page === currentPage
+                  ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30"
+                  : page === "..."
+                    ? "bg-transparent text-gray-500 cursor-default"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+
+        {/* Next Button */}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+            currentPage === totalPages
+              ? "bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+              : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white"
+          }`}
+        >
+          ถัดไป
+        </button>
+      </div>
+    </div>
+  );
+
   // Placeholder content for other menus
   const PlaceholderContent = ({ title }) => (
     <div className="flex flex-col items-center justify-center h-64 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
@@ -151,6 +312,8 @@ function Sidebar() {
     switch (activeMenu) {
       case "Dashboard":
         return <DashboardContent />;
+      case "Documents":
+        return <DocumentContent />;
       default:
         return <PlaceholderContent title={activeMenu} />;
     }

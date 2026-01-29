@@ -2,10 +2,27 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import { FaCalculator, FaClock, FaTimes } from "react-icons/fa";
 import { HiBanknotes } from "react-icons/hi2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+} from "chart.js";
+import { Doughnut, Bar } from "react-chartjs-2";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+);
 
 function Dashboard() {
   const randomColor = () => {
@@ -28,6 +45,62 @@ function Dashboard() {
         hoverOffset: 4,
       },
     ],
+  };
+
+  // JavaScript Frameworks Usage Data from ohmycrawl.com (2025)
+  const frameworkData = {
+    labels: ["React", "Vue.js", "Angular", "Svelte", "Next.js", "SolidJS"],
+    datasets: [
+      {
+        label: "Developer Usage (%)",
+        data: [39.5, 15.4, 12.0, 6.5, 52.9, 1.2],
+        backgroundColor: [
+          "rgba(97, 218, 251, 0.8)", // React - cyan
+          "rgba(65, 184, 131, 0.8)", // Vue - green
+          "rgba(221, 0, 49, 0.8)", // Angular - red
+          "rgba(255, 62, 0, 0.8)", // Svelte - orange
+          "rgba(0, 0, 0, 0.8)", // Next.js - black
+          "rgba(68, 107, 158, 0.8)", // SolidJS - blue
+        ],
+        borderColor: [
+          "rgba(97, 218, 251, 1)",
+          "rgba(65, 184, 131, 1)",
+          "rgba(221, 0, 49, 1)",
+          "rgba(255, 62, 0, 1)",
+          "rgba(0, 0, 0, 1)",
+          "rgba(68, 107, 158, 1)",
+        ],
+        borderWidth: 2,
+        borderRadius: 8,
+      },
+    ],
+  };
+
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Most Popular JavaScript Frameworks in 2025",
+        font: {
+          size: 16,
+          weight: "bold",
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 60,
+        title: {
+          display: true,
+          text: "Usage (%)",
+        },
+      },
+    },
   };
 
   return (
@@ -69,46 +142,14 @@ function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl shadow-md p-6 mt-5">
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2 w-full">
-                <label htmlFor="" className="font-semibold text-gray-700">
-                  เลือกวันที่
-                </label>
-                <input
-                  type="date"
-                  className="border border-gray-300 rounded-xl px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
-              <div className="flex flex-col gap-2 w-full">
-                <label htmlFor="" className="font-semibold text-gray-700">
-                  เลือกภาษา
-                </label>
-                <select
-                  name=""
-                  id=""
-                  className="border border-gray-300 rounded-xl px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                >
-                  <option value="">Javascript</option>
-                  <option value="">React</option>
-                  <option value="">Tailwind</option>
-                  <option value="">Nodejs</option>
-                </select>
-              </div>
-              <div>
-                <button className="bg-linear-to-br from-blue-500 to-purple-500 text-white px-4 py-2 rounded-xl w-full">
-                  ค้นหา
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="col-span-2">
-            <div className="bg-white rounded-xl shadow-md w-full text-white p-6 mt-5 flex items-center justify-center">
-              <div className="w-100 h-100">
-                <Doughnut data={data} />
-              </div>
-            </div>
+
+        {/* JavaScript Frameworks Usage Bar Chart */}
+        <div className="mt-5">
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <Bar data={frameworkData} options={barOptions} />
+            <p className="text-xs text-gray-500 mt-4 text-center">
+              Source: ohmycrawl.com - Most Popular JavaScript Frameworks in 2025
+            </p>
           </div>
         </div>
       </div>

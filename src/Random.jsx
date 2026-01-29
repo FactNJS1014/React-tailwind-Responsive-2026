@@ -267,7 +267,7 @@ function Random() {
         className="text-center mb-8 z-10"
       >
         <h1 className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-500 to-blue-200 mb-2">
-          🎰 AOTH LOTERRY NUMBER
+          🎰 AOTH LOTTERY NUMBER
         </h1>
         <p className="text-white/70 text-xl font-semibold">
           Thai Government Lottery Generator
