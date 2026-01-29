@@ -45,7 +45,7 @@ function Sidebar() {
 
   const [apiData, setApiData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
 
   // Dashboard Chart Data and loop background color
   const chartData = {
@@ -214,7 +214,7 @@ function Sidebar() {
             onChange={handleItemsPerPageChange}
             className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
           >
-            <option value={4}>4</option>
+            <option value={6}>6</option>
             <option value={8}>8</option>
             <option value={12}>12</option>
             <option value={20}>20</option>
