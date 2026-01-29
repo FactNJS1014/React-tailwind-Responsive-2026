@@ -230,20 +230,41 @@ function Sidebar() {
       </div>
 
       {/* Content List */}
-      <div className="flex-1 p-4 overflow-y-auto">
-        {currentData.map((item) => (
-          <div
-            key={item.id}
-            className="mb-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-100 dark:border-gray-600 hover:shadow-md transition-shadow"
-          >
-            <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
-              {item.title}
-            </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-              {item.body}
-            </p>
-          </div>
-        ))}
+      {/* Table */}
+      <div className="flex-1 overflow-auto">
+        <table className="w-full">
+          <thead className="bg-gray-50 dark:bg-gray-700 sticky top-0">
+            <tr>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-16">
+                ID
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/3">
+                Title
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                Body
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+            {currentData.map((item) => (
+              <tr
+                key={item.id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
+                <td className="px-4 py-3 text-sm font-medium text-gray-800 dark:text-white">
+                  {item.id}
+                </td>
+                <td className="px-4 py-3 text-sm font-medium text-gray-800 dark:text-white">
+                  {item.title}
+                </td>
+                <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                  {item.body}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Pagination Controls */}
